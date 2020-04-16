@@ -30,15 +30,20 @@ class PI2D:
         npr = int(np.floor((nr-2*margin)/subPatchSize)) # number of patch rows
         npc = int(np.floor((nc-2*margin)/subPatchSize)) # number of patch cols
 
+        if npr*subPatchSize+2*margin < nr:
+            npr += 1
+        if npc*subPatchSize+2*margin < nc:
+            npc += 1
+
         PI2D.PC = [] # patch coordinates [r0,r1,c0,c1]
         PI2D.SPC = []  # subpatch coordinates [r0,r1,c0,c1]
         for i in range(npr):
-            r0 = i*subPatchSize
+            r0 = np.minimum(i*subPatchSize,nr-patchSize)
             r1 = r0+patchSize
             sr0 = r0 + margin
             sr1 = sr0 + subPatchSize
             for j in range(npc):
-                c0 = j*subPatchSize
+                c0 = np.minimum(j*subPatchSize,nc-patchSize)
                 c1 = c0+patchSize
                 sc0 = c0 + margin
                 sc1 = sc0 + subPatchSize
@@ -69,7 +74,7 @@ class PI2D:
 
 
     def demo():
-        imSize = 200
+        imSize = 210
         patchSize = 60
         margin = 20
 
@@ -139,20 +144,27 @@ class PI3D:
         npc = int(np.floor((nc-2*margin)/subPatchSize)) # number of patch cols
         npz = int(np.floor((nz-2*margin)/subPatchSize)) # number of patch planes
 
+        if npr*subPatchSize+2*margin < nr:
+            npr += 1
+        if npc*subPatchSize+2*margin < nc:
+            npc += 1
+        if npz*subPatchSize+2*margin < nz:
+            npz += 1
+
         PI3D.PC = [] # patch coordinates [z0,z1,r0,r1,c0,c1]
         PI3D.SPC = []  # subpatch coordinates [z0,z1,r0,r1,c0,c1]
         for iZ in range(npz):
-            z0 = iZ*subPatchSize
+            z0 = np.minimum(iZ*subPatchSize,nz-patchSize)
             z1 = z0+patchSize
             sz0 = z0+margin
             sz1 = sz0+subPatchSize
             for i in range(npr):
-                r0 = i*subPatchSize
+                r0 = np.minimum(i*subPatchSize,nr-patchSize)
                 r1 = r0+patchSize
                 sr0 = r0 + margin
                 sr1 = sr0 + subPatchSize
                 for j in range(npc):
-                    c0 = j*subPatchSize
+                    c0 = np.minimum(j*subPatchSize,nc-patchSize)
                     c1 = c0+patchSize
                     sc0 = c0 + margin
                     sc1 = sc0 + subPatchSize
@@ -183,7 +195,7 @@ class PI3D:
 
 
     def demo():
-        imSize = 400
+        imSize = 410
         patchSize = 60
         margin = 20
 
